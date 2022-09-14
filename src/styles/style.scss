@@ -1,0 +1,12 @@
+// BASE
+@import "./base/basic.scss";
+
+//VIEWS
+@import "./views/MainPage.scss";
+
+//COMPONENTS
+
+@import "./components/ProjectGroupList.scss";
+@import "./components/ProjectGroup.scss";
+@import "./components/EmployeeGroup.scss";
+@import "./components/AddProjectGroup.scss";
