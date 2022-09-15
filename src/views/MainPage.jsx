@@ -18,8 +18,6 @@ export function MainPage() {
     queryEmployees();
   }, []);
 
-  useEffect(() => {});
-
   const queryEmployees = async () => {
     const currEmployees = await employeeService.getEmployees();
     setEmployees([...currEmployees]);
@@ -28,11 +26,15 @@ export function MainPage() {
   const queryProjects = async () => {
     const currProjects = await projectService.getProjects();
     setProjects([...currProjects]);
-    console.log(projects);
   };
 
   const addProject = async (name) => {
     await projectService.addProject(name);
+    await queryProjects();
+  };
+
+  const updateProject = async (updatedProejct) => {
+    await projectService.updateProject(updatedProejct);
     await queryProjects();
   };
 
@@ -59,8 +61,10 @@ export function MainPage() {
       <AddProject addProject={addProject}></AddProject>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="project-groups-container">
-          <ProjectGroupList employees={employees} projects={projects}></ProjectGroupList>
+          <ProjectGroupList updateProject={updateProject} employees={employees} projects={projects}></ProjectGroupList>
         </div>
+      </DragDropContext>
+      <DragDropContext>
         <EmployeeGroup employees={employees}></EmployeeGroup>
       </DragDropContext>
     </section>

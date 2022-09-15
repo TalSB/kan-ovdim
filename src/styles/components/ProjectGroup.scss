@@ -3,4 +3,11 @@
     min-width: 200px;
     margin-inline-end: 50px;
     position: relative;
+
+    .date-picker {
+        // date-picker container
+        position: absolute;
+        background-color: white;
+        border: 1px solid black;
+    }
 }
