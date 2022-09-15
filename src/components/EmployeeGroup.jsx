@@ -1,24 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { EmployeePreview } from "./EmployeePreview";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import { employeeService } from "../services/employee-service";
 
-export function EmployeeGroup({ employees }) {
+export function EmployeeGroup({ updateEmployee, projectId }) {
+  const [employees, setEmployees] = useState(null);
+
+  useEffect(() => {
+    queryEmployees();
+  }, []);
+
+  const queryEmployees = async () => {
+    const currEmployees = await employeeService.getEmployees();
+    setEmployees([...currEmployees]);
+  };
+
+  const onAddEmployeeToProject = async (employeeId) => {};
+
   return (
-    <Droppable type="b" droppableId={"employees-container"}>
-      {(provided) => (
-        <div className="employee-group" {...provided.droppableProps} ref={provided.innerRef}>
-          <h3>Employees</h3>
-          {employees?.map((employee, idx) => (
-            <Draggable innerRef={provided.innerRef} key={employee.id} index={idx} draggableId={`${employee.id}`}>
-              {(provided) => (
-                <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps}>
-                  <EmployeePreview employee={employee}></EmployeePreview>
-                </div>
-              )}
-            </Draggable>
-          ))}
-        </div>
-      )}
-    </Droppable>
+    <div className="employee-group">
+      <h3>Employees</h3>
+      {employees?.map((employee) => (
+        <EmployeePreview projectId={projectId} updateEmployee={updateEmployee} employee={employee}></EmployeePreview>
+      ))}
+    </div>
   );
 }

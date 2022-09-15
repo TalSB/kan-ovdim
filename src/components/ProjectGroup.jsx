@@ -5,9 +5,10 @@ import "react-day-picker/dist/style.css";
 import { useEffect } from "react";
 import { useClickOutside } from "../hooks/useClickOutside";
 
-export function ProjectGroup({ project, employees, updateProject }) {
+export function ProjectGroup({ project, updateProject, updateEmployee }) {
   const [dates, setDates] = useState(null);
   const [isPickingDates, setIsPickingDates] = useState(false);
+  const [isAddingEmployee, setIsAddingEmployee] = useState(false);
 
   useEffect(() => {
     const { startDate, endDate } = project;
@@ -40,6 +41,8 @@ export function ProjectGroup({ project, employees, updateProject }) {
       ) : (
         ""
       )}
+
+      {isAddingEmployee ? <EmployeeGroup updateEmployee={updateEmployee} projectId={project.id}></EmployeeGroup> : <button onClick={() => setIsAddingEmployee(true)}>Add Employee</button>}
     </section>
   );
 }

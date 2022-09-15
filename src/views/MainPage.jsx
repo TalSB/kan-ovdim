@@ -11,17 +11,10 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 export function MainPage() {
   const [projects, setProjects] = useState(null);
-  const [employees, setEmployees] = useState(null);
 
   useEffect(() => {
     queryProjects();
-    queryEmployees();
   }, []);
-
-  const queryEmployees = async () => {
-    const currEmployees = await employeeService.getEmployees();
-    setEmployees([...currEmployees]);
-  };
 
   const queryProjects = async () => {
     const currProjects = await projectService.getProjects();
@@ -38,35 +31,36 @@ export function MainPage() {
     await queryProjects();
   };
 
-  const onDragEnd = async (result) => {
-    if (!result.destination) return;
-    const toIdx = result.destination.index;
-    const fromIdx = result.source.index;
-    const movedProject = { ...projects[fromIdx] };
-    const newProjects = [...projects];
-    const oldProjects = [...projects];
-    newProjects.splice(fromIdx, 1);
-    newProjects.splice(toIdx, 0, movedProject);
-    setProjects([...newProjects]);
-    try {
-      await projectService.moveProject(fromIdx, toIdx);
-    } catch (err) {
-      console.error(err);
-      setProjects([...oldProjects]);
-    }
+  const updateEmployee = async (updatedEmployee) => {
+    await employeeService.updateEmployee(updatedEmployee);
+    await queryProjects();
   };
+
+  // const onDragEnd = async (result) => {
+  //   if (!result.destination) return;
+  //   const toIdx = result.destination.index;
+  //   const fromIdx = result.source.index;
+  //   const movedProject = { ...projects[fromIdx] };
+  //   const newProjects = [...projects];
+  //   const oldProjects = [...projects];
+  //   newProjects.splice(fromIdx, 1);
+  //   newProjects.splice(toIdx, 0, movedProject);
+  //   setProjects([...newProjects]);
+  //   try {
+  //     await projectService.moveProject(fromIdx, toIdx);
+  //   } catch (err) {
+  //     console.error(err);
+  //     setProjects([...oldProjects]);
+  //   }
+  // };
 
   return (
     <section className="main-page">
       <AddProject addProject={addProject}></AddProject>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <div className="project-groups-container">
-          <ProjectGroupList updateProject={updateProject} employees={employees} projects={projects}></ProjectGroupList>
-        </div>
-      </DragDropContext>
-      <DragDropContext>
-        <EmployeeGroup employees={employees}></EmployeeGroup>
-      </DragDropContext>
+      <div className="project-groups-container">
+        <ProjectGroupList updateEmployee={updateEmployee} updateProject={updateProject} projects={projects}></ProjectGroupList>
+      </div>
+      <EmployeeGroup></EmployeeGroup>
     </section>
   );
 }
