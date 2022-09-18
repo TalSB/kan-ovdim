@@ -8,6 +8,10 @@ const addProject = async (projName) => {
   gProjects.push({
     id: Math.floor(1000 * Math.random()),
     name: projName,
+    employeeIds:[],
+    startDate: null,
+    endDate: null
+
   });
   Promise.resolve();
 };
