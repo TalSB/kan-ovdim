@@ -4,7 +4,7 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 import { employeeService } from "../services/employee-service";
 import EmployeeContext from "../EmployeeContext";
 
-export function EmployeeGroup() {
+export function EmployeeGroup({projectId, setIsAddingEmployee}) {
   const {employees} = useContext(EmployeeContext);
   
 
@@ -14,7 +14,7 @@ export function EmployeeGroup() {
     <div className="employee-group">
       <h3>Employees</h3>
       {employees?.map((employee) => (
-        <EmployeePreview key={employee.id} employee={employee}></EmployeePreview>
+        <EmployeePreview setIsAddingEmployee={setIsAddingEmployee} key={employee.id} employee={employee} projectId={projectId}></EmployeePreview>
       ))}
     </div>
   );

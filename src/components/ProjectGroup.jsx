@@ -12,7 +12,7 @@ export function ProjectGroup({ project }) {
   const [isPickingDates, setIsPickingDates] = useState(false);
   const [isAddingEmployee, setIsAddingEmployee] = useState(false);  
   const {updateProject} = useContext(ProjectContext)
-  const {updateEmployee} = useContext(EmployeeContext)
+  const {employees} = useContext(EmployeeContext)
 
   useEffect(() => {
     const { startDate, endDate } = project;
@@ -37,6 +37,11 @@ export function ProjectGroup({ project }) {
     <section className="project-group">
       <button onClick={() => setIsPickingDates(true)}>Set Time</button>
       <h3 className="project-name">{project.name}</h3>
+      <ul className="project-employee-list">
+        {employees.map(employee => {
+          if(project.employeeIds.includes(employee.id)) return <li key={employee.id}>{employee.name}</li>
+        })}
+      </ul>
       {isPickingDates ? (
         <div className="date-picker">
           <DayPicker numberOfMonths={2} mode="range" selected={dates} onSelect={setDates} />
@@ -46,7 +51,7 @@ export function ProjectGroup({ project }) {
         ""
       )}
 
-      {isAddingEmployee ? <EmployeeGroup updateEmployee={updateEmployee} projectId={project.id}></EmployeeGroup> : <button onClick={() => setIsAddingEmployee(true)}>Add Employee</button>}
+      {isAddingEmployee ? <EmployeeGroup setIsAddingEmployee={setIsAddingEmployee} projectId={project.id}></EmployeeGroup> : <button onClick={() => setIsAddingEmployee(true)}>Add Employee</button>}
     </section>
   );
 }

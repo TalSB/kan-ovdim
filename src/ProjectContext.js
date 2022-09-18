@@ -20,8 +20,8 @@ export function ProjectProvider({ children }) {
     await queryProjects()
   }
 
-  const updateProject = async (updatedProejct) => {
-    await projectService.updateProject(updatedProejct)
+  const updateProject = async (updatedProject) => {
+    await projectService.updateProject(updatedProject)
     await queryProjects()
   }
 

@@ -33,7 +33,6 @@ export function MainPage() {
       <div className="project-groups-container">
         <ProjectGroupList></ProjectGroupList>
       </div>
-      <EmployeeGroup></EmployeeGroup>
     </section>
   );
 }

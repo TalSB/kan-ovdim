@@ -4,6 +4,16 @@
     margin-inline-end: 50px;
     position: relative;
 
+    .project-employee-list{
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+
+        li{
+            margin-bottom: 5px;
+        }
+    }
+
     .date-picker {
         // date-picker container
         position: absolute;
