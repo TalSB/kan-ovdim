@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
+import ProjectContext from "../ProjectContext";
 
-export function AddProject({ addProject }) {
+export function AddProject() {
   const [isAddGroup, setIsAddGroup] = useState(false);
   const [projectName, setProjectName] = useState(null);
+
+  const {addProject} = useContext(ProjectContext)
 
   const onAddGroup = () => {
     addProject(projectName);

@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { EmployeeGroup } from "./EmployeeGroup";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { useEffect } from "react";
 import { useClickOutside } from "../hooks/useClickOutside";
+import ProjectContext from "../ProjectContext";
+import EmployeeContext from "../EmployeeContext";
 
-export function ProjectGroup({ project, updateProject, updateEmployee }) {
+export function ProjectGroup({ project }) {
   const [dates, setDates] = useState(null);
   const [isPickingDates, setIsPickingDates] = useState(false);
-  const [isAddingEmployee, setIsAddingEmployee] = useState(false);
+  const [isAddingEmployee, setIsAddingEmployee] = useState(false);  
+  const {updateProject} = useContext(ProjectContext)
+  const {updateEmployee} = useContext(EmployeeContext)
 
   useEffect(() => {
     const { startDate, endDate } = project;

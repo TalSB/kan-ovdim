@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
+import EmployeeContext from "../EmployeeContext";
 
-export function EmployeePreview({ employee, updateEmployee, projectId }) {
+export function EmployeePreview({ employee }) {
+  const {updateEmployee} = useContext(EmployeeContext);
+
+
   const onAddEmployeeToProject = async () => {
-    const updatedEmployee = JSON.parse(JSON.stringify(employee));
-    updatedEmployee.currentProjectId = projectId;
-    await updateEmployee(updatedEmployee);
+    // const updatedEmployee = JSON.parse(JSON.stringify(employee));
+    // updatedEmployee.currentProjectId = projectId;
+    // await updateEmployee(updatedEmployee);
   };
 
   return (

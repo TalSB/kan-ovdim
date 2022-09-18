@@ -1,13 +1,19 @@
-import logo from "./logo.svg";
-import "./App.css";
-import { MainPage } from "./views/MainPage";
+import logo from './logo.svg'
+import './App.css'
+import { MainPage } from './views/MainPage'
+import { EmployeeProvider } from './EmployeeContext'
+import { ProjectProvider } from './ProjectContext'
 
 function App() {
   return (
     <div className="App">
-      <MainPage></MainPage>
+      <ProjectProvider>
+        <EmployeeProvider>
+          <MainPage></MainPage>
+        </EmployeeProvider>
+      </ProjectProvider>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
