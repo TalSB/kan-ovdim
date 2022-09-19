@@ -51,6 +51,7 @@ export function ProjectGroup({ project }) {
     const updatedEmployee = JSON.parse(JSON.stringify(employeeToUpdate));
     if (employeeDates.from) updatedEmployee.occupiedFrom = employeeDates.from;
     if (employeeDates.to) updatedEmployee.occupiedUntil = employeeDates.to;
+    updatedEmployee.isOccupiedChanged = true;
     await updateEmployee(updatedEmployee);
   };
 
