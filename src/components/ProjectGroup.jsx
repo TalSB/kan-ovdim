@@ -1,49 +1,58 @@
-import React, { useContext, useState } from 'react'
-import { EmployeeGroup } from './EmployeeGroup'
-import { DayPicker } from 'react-day-picker'
-import 'react-day-picker/dist/style.css'
-import { useEffect } from 'react'
-import { useClickOutside } from '../hooks/useClickOutside'
-import ProjectContext from '../ProjectContext'
-import EmployeeContext from '../EmployeeContext'
+import React, { useContext, useState } from "react";
+import { EmployeeGroup } from "./EmployeeGroup";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
+import { useEffect } from "react";
+import { useClickOutside } from "../hooks/useClickOutside";
+import ProjectContext from "../ProjectContext";
+import EmployeeContext from "../EmployeeContext";
 
 export function ProjectGroup({ project }) {
-  const [dates, setDates] = useState(null)
-  const [isPickingDates, setIsPickingDates] = useState(false)
-  const [isAddingEmployee, setIsAddingEmployee] = useState(false)
-  const { updateProject } = useContext(ProjectContext)
-  const { employees, updateEmployee } = useContext(EmployeeContext)
+  const [dates, setDates] = useState(null);
+  const [employeeDates, setEmployeeDates] = useState(null);
+  const [isPickingDates, setIsPickingDates] = useState(false);
+  const [isEmployeeDates, setIsEmployeeDates] = useState(false);
+  const [isAddingEmployee, setIsAddingEmployee] = useState(false);
+  const { updateProject } = useContext(ProjectContext);
+  const { employees, updateEmployee } = useContext(EmployeeContext);
 
   useEffect(() => {
-    const { startDate, endDate } = project
-    const dateObj = {}
+    const { startDate, endDate } = project;
+    const dateObj = {};
 
-    if (startDate) dateObj.from = startDate
-    if (endDate) dateObj.to = endDate
+    if (startDate) dateObj.from = startDate;
+    if (endDate) dateObj.to = endDate;
 
-    setDates(dateObj)
-  }, [])
+    setDates(dateObj);
+  }, []);
 
   const setProjectDates = async () => {
-    setIsPickingDates(false)
-    const updatedProject = JSON.parse(JSON.stringify(project))
+    setIsPickingDates(false);
+    const updatedProject = JSON.parse(JSON.stringify(project));
 
-    if (dates?.from) updatedProject.startDate = dates.from
-    if (dates?.to) updatedProject.endDate = dates.to
+    if (dates?.from) updatedProject.startDate = dates.from;
+    if (dates?.to) updatedProject.endDate = dates.to;
 
-    await updateProject(updatedProject)
+    await updateProject(updatedProject);
 
-    const projectEmployees = employees.filter((employee) =>
-      project.employeeIds.includes(employee.id),
-    )
+    const projectEmployees = employees.filter((employee) => project.employeeIds.includes(employee.id));
     projectEmployees.forEach(async (employee) => {
-      const updatedEmployee = { ...employee }
-      if (updatedEmployee.isOccupiedChanged) return
-      updatedEmployee.occupiedFrom = dates?.from
-      updatedEmployee.occupiedUntil = dates?.to
-      await updateEmployee(updatedEmployee)
-    })
-  }
+      const updatedEmployee = { ...employee };
+      if (updatedEmployee.isOccupiedChanged) return;
+      updatedEmployee.occupiedFrom = dates?.from;
+      updatedEmployee.occupiedUntil = dates?.to;
+      await updateEmployee(updatedEmployee);
+    });
+  };
+
+  const setCustomEmployeeDates = async (employeeId) => {
+    setIsEmployeeDates(false);
+    const employeeToUpdate = employees.find((employee) => employee.id === employeeId);
+    const updatedEmployee = JSON.parse(JSON.stringify(employeeToUpdate));
+    if (employeeDates.from) updatedEmployee.occupiedFrom = employeeDates.from;
+    if (employeeDates.to) updatedEmployee.occupiedUntil = employeeDates.to;
+    await updateEmployee(updatedEmployee);
+  };
 
   return (
     <section className="project-group">
@@ -55,34 +64,41 @@ export function ProjectGroup({ project }) {
             return (
               <div key={employee.id} className="project-employee-preview">
                 <li>{employee.name}</li>
-                <li>{employee.occupiedFrom?.toString()}</li>
-                <li>{employee.occupiedUntil?.toString()}</li>
+                <button
+                  onClick={() => {
+                    setIsEmployeeDates(true);
+                  }}
+                >
+                  set custom time
+                </button>
+                {isEmployeeDates ? (
+                  <div className="date-picker">
+                    <DayPicker numberOfMonths={2} mode="range" selected={employeeDates} onSelect={setEmployeeDates} />
+                    <button
+                      onClick={() => {
+                        setCustomEmployeeDates(employee.id);
+                      }}
+                    >
+                      Choose Dates
+                    </button>
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
-            )
+            );
         })}
       </ul>
       {isPickingDates ? (
         <div className="date-picker">
-          <DayPicker
-            numberOfMonths={2}
-            mode="range"
-            selected={dates}
-            onSelect={setDates}
-          />
+          <DayPicker numberOfMonths={2} mode="range" selected={dates} onSelect={setDates} />
           <button onClick={setProjectDates}>Choose Dates</button>
         </div>
       ) : (
-        ''
+        ""
       )}
 
-      {isAddingEmployee ? (
-        <EmployeeGroup
-          setIsAddingEmployee={setIsAddingEmployee}
-          projectId={project.id}
-        ></EmployeeGroup>
-      ) : (
-        <button onClick={() => setIsAddingEmployee(true)}>Add Employee</button>
-      )}
+      {isAddingEmployee ? <EmployeeGroup setIsAddingEmployee={setIsAddingEmployee} projectId={project.id}></EmployeeGroup> : <button onClick={() => setIsAddingEmployee(true)}>Add Employee</button>}
     </section>
-  )
+  );
 }

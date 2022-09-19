@@ -4,11 +4,8 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 import { employeeService } from "../services/employee-service";
 import EmployeeContext from "../EmployeeContext";
 
-export function EmployeeGroup({projectId, setIsAddingEmployee}) {
-  const {employees} = useContext(EmployeeContext);
-  
-
-  const onAddEmployeeToProject = async (employeeId) => {};
+export function EmployeeGroup({ projectId, setIsAddingEmployee }) {
+  const { employees } = useContext(EmployeeContext);
 
   return (
     <div className="employee-group">

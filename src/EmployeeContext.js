@@ -1,33 +1,29 @@
-import { useState, createContext, useContext, useEffect } from 'react'
-import { employeeService } from './services/employee-service'
-import ProjectContext from './ProjectContext'
+import { useState, createContext, useContext, useEffect } from "react";
+import { employeeService } from "./services/employee-service";
+import ProjectContext from "./ProjectContext";
 
-const EmployeeContext = createContext()
+const EmployeeContext = createContext();
 
 export function EmployeeProvider({ children }) {
   const [employees, setEmployees] = useState(null);
-  const { queryProjects } = useContext(ProjectContext)
+  const { queryProjects } = useContext(ProjectContext);
 
   useEffect(() => {
     queryEmployees();
-  }, [])
+  }, []);
 
   const updateEmployee = async (updatedEmployee) => {
-    await employeeService.updateEmployee(updatedEmployee)
+    await employeeService.updateEmployee(updatedEmployee);
     await queryEmployees();
-    await queryProjects()
-  }
+    await queryProjects();
+  };
 
   const queryEmployees = async () => {
-    const currEmployees = await employeeService.getEmployees()
-    setEmployees([...currEmployees])
-  }
+    const currEmployees = await employeeService.getEmployees();
+    setEmployees([...currEmployees]);
+  };
 
-  return (
-    <EmployeeContext.Provider value={{employees, updateEmployee, queryEmployees }}>
-      {children}
-    </EmployeeContext.Provider>
-  )
+  return <EmployeeContext.Provider value={{ employees, updateEmployee, queryEmployees }}>{children}</EmployeeContext.Provider>;
 }
 
-export default EmployeeContext
+export default EmployeeContext;

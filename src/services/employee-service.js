@@ -5,7 +5,7 @@ const gEmployees = [
     roleId: 101,
     occupiedFrom: new Date(),
     occupiedUntil: new Date(Date.now() + 1000 * 60 * 60 * 24),
-    isOccupiedChanged: false
+    isOccupiedChanged: false,
   },
   {
     id: 102,
@@ -13,7 +13,7 @@ const gEmployees = [
     roleId: 102,
     occupiedFrom: null,
     occupiedUntil: null,
-    isOccupiedChanged: false
+    isOccupiedChanged: false,
   },
   {
     id: 103,
@@ -21,7 +21,7 @@ const gEmployees = [
     roleId: 101,
     occupiedFrom: new Date(),
     occupiedUntil: new Date(Date.now() + 1000 * 60 * 60 * 24),
-    isOccupiedChanged: false
+    isOccupiedChanged: false,
   },
 ];
 
@@ -35,8 +35,8 @@ const getEmployees = async () => {
 };
 
 const updateEmployee = async (updatedEmployee) => {
-  const employeeIdx = gEmployees.findIndex(employee => employee.id === updatedEmployee.id);
-  gEmployees.splice(employeeIdx, 1 , updatedEmployee);
+  const employeeIdx = gEmployees.findIndex((employee) => employee.id === updatedEmployee.id);
+  gEmployees.splice(employeeIdx, 1, updatedEmployee);
   return Promise.resolve();
 };
 
