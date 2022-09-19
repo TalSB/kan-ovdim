@@ -3,8 +3,8 @@ const gEmployees = [
     id: 101,
     name: "Tal",
     roleId: 101,
-    occupiedFrom: new Date(),
-    occupiedUntil: new Date(Date.now() + 1000 * 60 * 60 * 24),
+    occupiedFrom: null,
+    occupiedUntil: null,
     isOccupiedChanged: false,
   },
   {
@@ -19,8 +19,8 @@ const gEmployees = [
     id: 103,
     name: "Alon",
     roleId: 101,
-    occupiedFrom: new Date(),
-    occupiedUntil: new Date(Date.now() + 1000 * 60 * 60 * 24),
+    occupiedFrom: null,
+    occupiedUntil: null,
     isOccupiedChanged: false,
   },
 ];

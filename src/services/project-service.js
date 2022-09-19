@@ -1,19 +1,13 @@
 const gProjects = [
-  { id: 101, name: "MyBusiness", employeeIds: [101], startDate: new Date(Date.now()), endDate: new Date(Date.now() + 1000 * 60 * 60 * 24) },
-  { id: 102, name: "Telemesser", employeeIds: [102] },
-  { id: 103, name: "Microsoft", employeeIds: [103] },
+  { id: 101, name: "MyBusiness", employeeIds: [], startDate: new Date(Date.now()), endDate: new Date(Date.now() + 1000 * 60 * 60 * 24) },
+  { id: 102, name: "Telemesser", employeeIds: [] },
+  { id: 103, name: "Microsoft", employeeIds: [] },
 ];
 
-const addProject = async (projName) => {
-  gProjects.push({
-    id: Math.floor(1000 * Math.random()),
-    name: projName,
-    employeeIds:[],
-    startDate: null,
-    endDate: null
-
-  });
-  Promise.resolve();
+const addProject = async (newProject) => {
+  newProject.id = Math.floor(1000 * Math.random());
+  gProjects.push(newProject);
+  return Promise.resolve();
 };
 
 const getProjects = async () => {

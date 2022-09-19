@@ -1,3 +1,16 @@
-// .add-project-group {
-//     position: absolute;
-// }
+.add-project-group {
+    .add-group-input-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+    .date-picker {
+        position: absolute;
+        background-color: white;
+        border: 1px solid black;
+        left: 0;
+        z-index: 10;
+    }
+}

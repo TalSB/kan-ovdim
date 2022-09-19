@@ -99,7 +99,11 @@ export function ProjectGroup({ project }) {
         ""
       )}
 
-      {isAddingEmployee ? <EmployeeGroup setIsAddingEmployee={setIsAddingEmployee} projectId={project.id}></EmployeeGroup> : <button onClick={() => setIsAddingEmployee(true)}>Add Employee</button>}
+      {isAddingEmployee ? (
+        <EmployeeGroup setIsAddingEmployee={setIsAddingEmployee} projectId={project.id}></EmployeeGroup>
+      ) : (
+        <button onClick={() => setIsAddingEmployee(true)}>Add Employee</button>
+      )}
     </section>
   );
 }

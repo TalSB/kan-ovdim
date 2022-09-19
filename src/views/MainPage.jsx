@@ -4,11 +4,11 @@ import { useState } from "react";
 import { EmployeeGroup } from "../components/EmployeeGroup";
 import { ProjectGroupList } from "../components/ProjectGroupList";
 import { AddProject } from "../components/AddProject";
+import { AvailableEmployeesGroup } from "../components/AvailableEmployeesGroup";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { ProjectTimeFilter } from "../components/ProjectTimeFilter";
 
 export function MainPage() {
-
-
   // const onDragEnd = async (result) => {
   //   if (!result.destination) return;
   //   const toIdx = result.destination.index;
@@ -32,6 +32,10 @@ export function MainPage() {
       <AddProject></AddProject>
       <div className="project-groups-container">
         <ProjectGroupList></ProjectGroupList>
+      </div>
+      <div className="available-employees-container">
+        <AvailableEmployeesGroup></AvailableEmployeesGroup>
+        <ProjectTimeFilter></ProjectTimeFilter>
       </div>
     </section>
   );

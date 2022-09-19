@@ -11,6 +11,13 @@ export function EmployeePreview({ employee, projectId, setIsAddingEmployee }) {
     if (!project.employeeIds.includes(employee.id)) project.employeeIds.push(employee.id);
     setIsAddingEmployee(false);
     await updateProject(project);
+
+    const updatedEmployee = { ...employee };
+    if (updatedEmployee.isOccupiedChanged) return;
+    updatedEmployee.occupiedFrom = project.startDate;
+    updatedEmployee.occupiedUntil = project.endDate;
+    console.log(updatedEmployee);
+    await updateEmployee(updatedEmployee);
   };
 
   return (
