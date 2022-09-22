@@ -1,13 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { useState } from "react";
 import ProjectContext from "../ProjectContext";
 import { DayPicker } from "react-day-picker";
+import { useClickOutside } from "../hooks/useClickOutside";
 
 export function AddProject() {
   const [isAddGroup, setIsAddGroup] = useState(false);
   const [projectName, setProjectName] = useState(null);
   const [isPickingDates, setIsPickingDates] = useState(false);
   const [dates, setDates] = useState(null);
+  const datesRef = useRef();
+
+  useClickOutside(datesRef, () => setIsPickingDates(false));
 
   const { addProject } = useContext(ProjectContext);
 
@@ -25,7 +29,7 @@ export function AddProject() {
   return (
     <div className="add-project-group">
       {isAddGroup ? (
-        <div className="add-group-input-container">
+        <div ref={datesRef} className="add-group-input-container">
           <input
             type="text"
             className="add-group-input"

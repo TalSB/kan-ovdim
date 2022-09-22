@@ -1,20 +1,25 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { EmployeeGroup } from "./EmployeeGroup";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { useEffect } from "react";
-import { useClickOutside } from "../hooks/useClickOutside";
 import ProjectContext from "../ProjectContext";
 import EmployeeContext from "../EmployeeContext";
+import { useClickOutside } from "../hooks/useClickOutside";
 
 export function ProjectGroup({ project }) {
   const [dates, setDates] = useState(null);
   const [employeeDates, setEmployeeDates] = useState(null);
-  const [isPickingDates, setIsPickingDates] = useState(false);
+  const [isProjectDates, setIsProjectDates] = useState(false);
   const [isEmployeeDates, setIsEmployeeDates] = useState(false);
   const [isAddingEmployee, setIsAddingEmployee] = useState(false);
   const { updateProject } = useContext(ProjectContext);
   const { employees, updateEmployee } = useContext(EmployeeContext);
+  const employeeDatesRef = useRef();
+  const projectDatesRef = useRef();
+
+  useClickOutside(employeeDatesRef, () => setIsEmployeeDates(false));
+  useClickOutside(projectDatesRef, () => setIsProjectDates(false));
 
   useEffect(() => {
     const { startDate, endDate } = project;
@@ -27,7 +32,7 @@ export function ProjectGroup({ project }) {
   }, []);
 
   const setProjectDates = async () => {
-    setIsPickingDates(false);
+    setIsProjectDates(false);
     const updatedProject = JSON.parse(JSON.stringify(project));
 
     if (dates?.from) updatedProject.startDate = dates.from;
@@ -57,7 +62,7 @@ export function ProjectGroup({ project }) {
 
   return (
     <section className="project-group">
-      <button onClick={() => setIsPickingDates(true)}>Set Time</button>
+      <button onClick={() => setIsProjectDates(true)}>Set Time</button>
       <h3 className="project-name">{project.name}</h3>
       <ul className="project-employee-list">
         {employees.map((employee) => {
@@ -73,7 +78,7 @@ export function ProjectGroup({ project }) {
                   set custom time
                 </button>
                 {isEmployeeDates ? (
-                  <div className="date-picker">
+                  <div ref={employeeDatesRef} className="date-picker">
                     <DayPicker numberOfMonths={2} mode="range" selected={employeeDates} onSelect={setEmployeeDates} />
                     <button
                       onClick={() => {
@@ -90,8 +95,8 @@ export function ProjectGroup({ project }) {
             );
         })}
       </ul>
-      {isPickingDates ? (
-        <div className="date-picker">
+      {isProjectDates ? (
+        <div ref={projectDatesRef} className="date-picker">
           <DayPicker numberOfMonths={2} mode="range" selected={dates} onSelect={setDates} />
           <button onClick={setProjectDates}>Choose Dates</button>
         </div>
