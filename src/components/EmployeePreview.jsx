@@ -16,7 +16,6 @@ export function EmployeePreview({ employee, projectId, setIsAddingEmployee }) {
     if (updatedEmployee.isOccupiedChanged) return;
     updatedEmployee.occupiedFrom = project.startDate;
     updatedEmployee.occupiedUntil = project.endDate;
-    console.log(updatedEmployee);
     await updateEmployee(updatedEmployee);
   };
 

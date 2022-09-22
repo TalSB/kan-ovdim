@@ -1,17 +1,12 @@
 import React, { useContext, useRef } from "react";
 import { useState } from "react";
 import ProjectContext from "../ProjectContext";
-import { DayPicker } from "react-day-picker";
-import { useClickOutside } from "../hooks/useClickOutside";
+import { DatePicker } from "./DatePicker";
 
 export function AddProject() {
   const [isAddGroup, setIsAddGroup] = useState(false);
   const [projectName, setProjectName] = useState(null);
-  const [isPickingDates, setIsPickingDates] = useState(false);
   const [dates, setDates] = useState(null);
-  const datesRef = useRef();
-
-  useClickOutside(datesRef, () => setIsPickingDates(false));
 
   const { addProject } = useContext(ProjectContext);
 
@@ -29,7 +24,7 @@ export function AddProject() {
   return (
     <div className="add-project-group">
       {isAddGroup ? (
-        <div ref={datesRef} className="add-group-input-container">
+        <div className="add-group-input-container">
           <input
             type="text"
             className="add-group-input"
@@ -38,20 +33,7 @@ export function AddProject() {
               setProjectName(text);
             }}
           />
-          {isPickingDates ? (
-            <div className="date-picker">
-              <DayPicker numberOfMonths={2} mode="range" selected={dates} onSelect={setDates} />
-              <button
-                onClick={() => {
-                  setIsPickingDates(false);
-                }}
-              >
-                Set Dates
-              </button>
-            </div>
-          ) : (
-            <button onClick={() => setIsPickingDates(true)}>Set Project Dates</button>
-          )}
+          <DatePicker selected={dates} onSelect={setDates} buttonText={"Set Project Date"}></DatePicker>
           <button onClick={onAddProject}>Add</button>
         </div>
       ) : (
