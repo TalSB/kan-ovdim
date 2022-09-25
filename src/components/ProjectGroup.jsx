@@ -56,7 +56,7 @@ export function ProjectGroup({ project }) {
 
       <h3 className="project-name">{project.name}</h3>
       <ul className="project-employee-list">
-        {employees.map((employee) => {
+        {employees?.map((employee) => {
           if (project.employeeIds?.includes(employee.id))
             return (
               <div key={employee.id} className="project-employee-preview">

@@ -1,3 +1,4 @@
+import axios from "axios";
 const gEmployees = [
   {
     id: 101,
@@ -30,8 +31,12 @@ const gRoles = [
   { name: "devops", id: 102 },
 ];
 
+const apiURL = 'http://localhost:3000/employee'
+
+
 const getEmployees = async () => {
-  return Promise.resolve(gEmployees);
+  const employees = await axios.get(apiURL)
+  return employees.data
 };
 
 const updateEmployee = async (updatedEmployee) => {

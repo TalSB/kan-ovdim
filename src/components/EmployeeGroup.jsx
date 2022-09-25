@@ -15,7 +15,7 @@ export function EmployeeGroup({ projectId, setIsAddingEmployee }) {
     <div ref={groupContainer} className="employee-group">
       <h3>Employees</h3>
       {employees?.map((employee) => (
-        <EmployeePreview setIsAddingEmployee={setIsAddingEmployee} key={employee.id} employee={employee} projectId={projectId}></EmployeePreview>
+        <EmployeePreview setIsAddingEmployee={setIsAddingEmployee} key={employee._id} employee={employee} projectId={projectId}></EmployeePreview>
       ))}
     </div>
   );

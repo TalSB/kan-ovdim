@@ -9,7 +9,7 @@ export function AvailableEmployeesGroup() {
       <h3 className="header">Available Employees</h3>
       <ul>
         {employees?.map((employee) => {
-          if (!employee.occupiedFrom) return <li key={employee.id}>{employee.name}</li>;
+          if (!employee.occupiedFrom) return <li key={employee._id}>{employee.name}</li>;
         })}
       </ul>
     </section>
