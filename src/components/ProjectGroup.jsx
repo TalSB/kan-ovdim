@@ -31,7 +31,7 @@ export function ProjectGroup({ project }) {
 
     await updateProject(updatedProject);
 
-    const projectEmployees = employees.filter((employee) => project.employeeIds.includes(employee.id));
+    const projectEmployees = employees.filter((employee) => project.employeeIds.includes(employee._id));
     projectEmployees.forEach(async (employee) => {
       const updatedEmployee = { ...employee };
       if (updatedEmployee.isOccupiedChanged) return;
@@ -42,14 +42,14 @@ export function ProjectGroup({ project }) {
   };
 
   const setCustomEmployeeDates = async (employeeId) => {
-    const employeeToUpdate = employees.find((employee) => employee.id === employeeId);
+    const employeeToUpdate = employees.find((employee) => employee._id === employeeId);
     const updatedEmployee = JSON.parse(JSON.stringify(employeeToUpdate));
     if (employeeDates.from) updatedEmployee.occupiedFrom = employeeDates.from;
     if (employeeDates.to) updatedEmployee.occupiedUntil = employeeDates.to;
     updatedEmployee.isOccupiedChanged = true;
     await updateEmployee(updatedEmployee);
   };
-
+  sc;
   return (
     <section className="project-group">
       <DatePicker selected={dates} onSelect={setDates} confirmHandler={setProjectDates} buttonText={"Set Project Date"}></DatePicker>
@@ -57,15 +57,15 @@ export function ProjectGroup({ project }) {
       <h3 className="project-name">{project.name}</h3>
       <ul className="project-employee-list">
         {employees?.map((employee) => {
-          if (project.employeeIds?.includes(employee.id))
+          if (project.employeeIds?.includes(employee._id))
             return (
-              <div key={employee.id} className="project-employee-preview">
+              <div key={employee._id} className="project-employee-preview">
                 <li>{employee.name}</li>
                 <DatePicker
                   selected={employeeDates}
                   onSelect={setEmployeeDates}
                   confirmHandler={() => {
-                    setCustomEmployeeDates(employee.id);
+                    setCustomEmployeeDates(employee._id);
                   }}
                 ></DatePicker>
               </div>
@@ -73,7 +73,7 @@ export function ProjectGroup({ project }) {
         })}
       </ul>
       {isAddingEmployee ? (
-        <EmployeeGroup setIsAddingEmployee={setIsAddingEmployee} projectId={project.id}></EmployeeGroup>
+        <EmployeeGroup setIsAddingEmployee={setIsAddingEmployee} projectId={project._id}></EmployeeGroup>
       ) : (
         <button onClick={() => setIsAddingEmployee(true)}>Add Employee</button>
       )}

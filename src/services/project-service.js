@@ -1,4 +1,5 @@
 import { isFirstDayOfMonth } from "date-fns";
+import axios from "axios";
 
 const gProjects = [
   { id: 101, name: "MyBusiness", employeeIds: [], startDate: new Date(Date.now()), endDate: new Date(Date.now() + 1000 * 60 * 60 * 24) },
@@ -8,22 +9,27 @@ const gProjects = [
 
 let filter = {};
 
+const apiURL = "http://localhost:3005/project";
+
 const addProject = async (newProject) => {
-  newProject.id = Math.floor(1000 * Math.random());
-  gProjects.push(newProject);
-  return Promise.resolve();
+  // newProject.id = Math.floor(1000 * Math.random());
+  // gProjects.push(newProject);
+  try {
+    const project = await axios.post(apiURL, { newProject });
+    return project.data;
+  } catch (error) {
+    console.log("ERROR", error);
+  }
 };
 
 const getProjects = async () => {
   let filteredProjects = [];
-  if (filter) {
-    if (filter.from) {
-      if (filter.to) {
-      } else {
-      }
-    }
+  try {
+    const projects = await axios.get(apiURL);
+    return projects.data;
+  } catch (error) {
+    console.log("ERROR:", error);
   }
-  return Promise.resolve(gProjects);
 };
 
 const moveProject = async (fromIdx, toIdx) => {
@@ -34,9 +40,15 @@ const moveProject = async (fromIdx, toIdx) => {
 };
 
 const updateProject = async (updatedProject) => {
-  const projectIdx = gProjects.findIndex((project) => project.id === updatedProject.id);
-  gProjects.splice(projectIdx, 1, updatedProject);
-  return Promise.resolve();
+  // const projectIdx = gProjects.findIndex((project) => project.id === updatedProject.id);
+  // gProjects.splice(projectIdx, 1, updatedProject);
+  // return Promise.resolve();
+  try {
+    const project = await axios.put(apiURL, { updatedProject });
+    return project.data;
+  } catch (error) {
+    console.log("ERORR:", error);
+  }
 };
 
 const setFilter = async (filterOptions) => {

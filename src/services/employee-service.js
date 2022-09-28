@@ -31,18 +31,26 @@ const gRoles = [
   { name: "devops", id: 102 },
 ];
 
-const apiURL = 'http://localhost:3000/employee'
-
+const apiURL = "http://localhost:3005/employee";
 
 const getEmployees = async () => {
-  const employees = await axios.get(apiURL)
-  return employees.data
+  try {
+    const employees = await axios.get(apiURL);
+    return employees.data;
+  } catch (error) {
+    console.log("ERROR:", error);
+  }
 };
 
 const updateEmployee = async (updatedEmployee) => {
-  const employeeIdx = gEmployees.findIndex((employee) => employee.id === updatedEmployee.id);
-  gEmployees.splice(employeeIdx, 1, updatedEmployee);
-  return Promise.resolve();
+  // const employeeIdx = gEmployees.findIndex((employee) => employee.id === updatedEmployee.id);
+  // gEmployees.splice(employeeIdx, 1, updatedEmployee);
+  try {
+    const employee = await axios.put(apiURL, { updatedEmployee });
+    return employee.data;
+  } catch (error) {
+    console.log("ERROR:", error);
+  }
 };
 
 export const employeeService = {

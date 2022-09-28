@@ -7,8 +7,8 @@ export function EmployeePreview({ employee, projectId, setIsAddingEmployee }) {
   const { projects, updateProject } = useContext(ProjectContext);
 
   const onAddEmployeeToProject = async () => {
-    const project = { ...projects.find((proj) => proj.id === projectId) };
-    if (!project.employeeIds.includes(employee.id)) project.employeeIds.push(employee.id);
+    const project = { ...projects.find((proj) => proj._id === projectId) };
+    if (!project.employeeIds.includes(employee._id)) project.employeeIds.push(employee._id);
     setIsAddingEmployee(false);
     await updateProject(project);
 

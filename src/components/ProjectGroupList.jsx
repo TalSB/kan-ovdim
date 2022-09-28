@@ -4,12 +4,12 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import ProjectContext from "../ProjectContext";
 
 export function ProjectGroupList() {
-const {projects} = useContext(ProjectContext);
+  const { projects } = useContext(ProjectContext);
   return (
     <section className="project-group-list">
       <ul>
         {projects?.map((project) => (
-          <li key={project.id}>
+          <li key={project._id}>
             <ProjectGroup project={project}></ProjectGroup>
           </li>
         ))}
