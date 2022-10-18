@@ -10,24 +10,37 @@ export function ProjectGroup({ project }) {
   const [dates, setDates] = useState(null);
   const [employeeDates, setEmployeeDates] = useState(null);
   const [isAddingEmployee, setIsAddingEmployee] = useState(false);
-  const { updateProject } = useContext(ProjectContext);
+  const { updateProject, deleteProject } = useContext(ProjectContext);
   const { employees, updateEmployee } = useContext(EmployeeContext);
 
   useEffect(() => {
     const { startDate, endDate } = project;
     const dateObj = {};
 
-    if (startDate) dateObj.from = startDate;
-    if (endDate) dateObj.to = endDate;
+    if (startDate) dateObj.from = new Date(startDate);
+    if (endDate) dateObj.to = new Date(endDate);
 
     setDates(dateObj);
-  }, []);
+  }, [project]);
+
+  useEffect(() => {
+    const datesByEmployees = project?.employeeIds?.map((employeeId) => {
+      const employee = employees?.find((emp) => emp._id === employeeId);
+      return {
+        employeeId,
+        from: employee?.occupiedFrom && new Date(employee.occupiedFrom),
+        to: employee?.occupiedUntil && new Date(employee.occupiedUntil),
+      };
+    });
+    setEmployeeDates(datesByEmployees);
+  }, [employees]);
 
   const setProjectDates = async () => {
     const updatedProject = JSON.parse(JSON.stringify(project));
 
-    if (dates?.from) updatedProject.startDate = dates.from;
-    if (dates?.to) updatedProject.endDate = dates.to;
+    if (dates?.from) updatedProject.startDate = new Date(dates.from).getTime();
+    if (dates?.to) updatedProject.endDate = new Date(dates.to).getTime();
+    else updatedProject.endDate = updatedProject.startDate;
 
     await updateProject(updatedProject);
 
@@ -41,35 +54,54 @@ export function ProjectGroup({ project }) {
     });
   };
 
+  const updateEmployeeDates = (employeeId, selectedDates) => {
+    const idx = employeeDates.findIndex((empDate) => empDate.employeeId === employeeId);
+    const newDates = { ...employeeDates[idx], ...selectedDates };
+    const updatedEmployeeDates = [...employeeDates];
+    updatedEmployeeDates.splice(idx, 1, newDates);
+    setEmployeeDates(updatedEmployeeDates);
+  };
+
   const setCustomEmployeeDates = async (employeeId) => {
     const employeeToUpdate = employees.find((employee) => employee._id === employeeId);
     const updatedEmployee = JSON.parse(JSON.stringify(employeeToUpdate));
-    if (employeeDates.from) updatedEmployee.occupiedFrom = employeeDates.from;
-    if (employeeDates.to) updatedEmployee.occupiedUntil = employeeDates.to;
+    const employeeDate = employeeDates?.find((empDate) => empDate.employeeId === employeeId);
+    if (employeeDate?.from) updatedEmployee.occupiedFrom = new Date(employeeDate.from).getTime();
+    if (employeeDate?.to) updatedEmployee.occupiedUntil = new Date(employeeDate.to).getTime();
+    else updatedEmployee.occupiedUntil = updatedEmployee.occupiedFrom;
     updatedEmployee.isOccupiedChanged = true;
     await updateEmployee(updatedEmployee);
   };
-  sc;
+
+  const onDeleteProject = async () => {
+    await deleteProject(project._id);
+  };
+
   return (
     <section className="project-group">
+      <button onClick={onDeleteProject}>X</button>
       <DatePicker selected={dates} onSelect={setDates} confirmHandler={setProjectDates} buttonText={"Set Project Date"}></DatePicker>
-
       <h3 className="project-name">{project.name}</h3>
       <ul className="project-employee-list">
         {employees?.map((employee) => {
-          if (project.employeeIds?.includes(employee._id))
+          if (project.employeeIds?.includes(employee._id)) {
+            const employeeDate = employeeDates?.find((emp) => emp.employeeId === employee._id);
+            const selectedEmployeeDates = { from: employeeDate?.from, to: employeeDate?.to };
             return (
               <div key={employee._id} className="project-employee-preview">
                 <li>{employee.name}</li>
                 <DatePicker
-                  selected={employeeDates}
-                  onSelect={setEmployeeDates}
+                  selected={selectedEmployeeDates}
+                  onSelect={(selectedDates) => {
+                    updateEmployeeDates(employee._id, selectedDates);
+                  }}
                   confirmHandler={() => {
                     setCustomEmployeeDates(employee._id);
                   }}
                 ></DatePicker>
               </div>
             );
+          }
         })}
       </ul>
       {isAddingEmployee ? (

@@ -6,7 +6,8 @@ import { ProjectGroupList } from "../components/ProjectGroupList";
 import { AddProject } from "../components/AddProject";
 import { AvailableEmployeesGroup } from "../components/AvailableEmployeesGroup";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { TimeFilter } from "../components/TimeFilter";
+import { ProjectTimeFilter } from "../components/ProjectTimeFilter";
+import { AvailableEmployeeTimeFilter } from "../components/AvailableEmployeeTimeFilter";
 
 export function MainPage() {
   // const onDragEnd = async (result) => {
@@ -30,12 +31,16 @@ export function MainPage() {
   return (
     <section className="main-page">
       <AddProject></AddProject>
+
       <div className="project-groups-container">
         <ProjectGroupList></ProjectGroupList>
       </div>
       <div className="available-employees-container">
         <AvailableEmployeesGroup></AvailableEmployeesGroup>
-        <TimeFilter></TimeFilter>
+      </div>
+      <div className="filter-container">
+        <ProjectTimeFilter></ProjectTimeFilter>
+        <AvailableEmployeeTimeFilter></AvailableEmployeeTimeFilter>
       </div>
     </section>
   );

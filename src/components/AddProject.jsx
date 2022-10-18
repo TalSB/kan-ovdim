@@ -11,12 +11,15 @@ export function AddProject() {
   const { addProject } = useContext(ProjectContext);
 
   const onAddProject = async () => {
+    const startDate = dates?.from ? new Date(dates.from).getTime() : null;
+    const endDate = dates?.to ? new Date(dates.to).getTime() : null;
     const newProject = {
       name: projectName,
-      startDate: dates?.from,
-      endDate: dates?.to,
+      startDate,
+      endDate,
       employeeIds: [],
     };
+    console.log(newProject);
     setIsAddGroup(false);
     await addProject(newProject);
   };

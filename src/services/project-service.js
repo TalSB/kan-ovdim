@@ -1,12 +1,6 @@
 import { isFirstDayOfMonth } from "date-fns";
 import axios from "axios";
 
-const gProjects = [
-  { id: 101, name: "MyBusiness", employeeIds: [], startDate: new Date(Date.now()), endDate: new Date(Date.now() + 1000 * 60 * 60 * 24) },
-  { id: 102, name: "Telemesser", employeeIds: [], startDate: new Date(Date.now()), endDate: new Date(Date.now() + 1000 * 60 * 60 * 24) },
-  { id: 103, name: "Microsoft", employeeIds: [], startDate: new Date(Date.now()), endDate: new Date(Date.now() + 1000 * 60 * 60 * 24) },
-];
-
 let filter = {};
 
 const apiURL = "http://localhost:3005/project";
@@ -23,21 +17,21 @@ const addProject = async (newProject) => {
 };
 
 const getProjects = async () => {
-  let filteredProjects = [];
   try {
     const projects = await axios.get(apiURL);
-    return projects.data;
+    const filteredProjects = _filterProjects(projects.data);
+    return filteredProjects;
   } catch (error) {
     console.log("ERROR:", error);
   }
 };
 
-const moveProject = async (fromIdx, toIdx) => {
-  const movedProject = gProjects[fromIdx];
-  gProjects.splice(fromIdx, 1);
-  gProjects.splice(toIdx, 0, movedProject);
-  return Promise.resolve();
-};
+// const moveProject = async (fromIdx, toIdx) => {
+//   const movedProject = gProjects[fromIdx];
+//   gProjects.splice(fromIdx, 1);
+//   gProjects.splice(toIdx, 0, movedProject);
+//   return Promise.resolve();
+// };
 
 const updateProject = async (updatedProject) => {
   // const projectIdx = gProjects.findIndex((project) => project.id === updatedProject.id);
@@ -51,15 +45,39 @@ const updateProject = async (updatedProject) => {
   }
 };
 
+const deleteProject = async (projectId) => {
+  try {
+    return await axios.delete(apiURL + "/" + projectId);
+  } catch (error) {
+    console.log("ERROR:", error);
+  }
+};
+
 const setFilter = async (filterOptions) => {
   filter = { ...filter, ...filterOptions };
   return Promise.resolve();
 };
 
+const _filterProjects = (projects) => {
+  let filteredProjects;
+  if (filter.from) {
+    filteredProjects = projects.filter((project) => project.startDate >= filter.from);
+  }
+  if (filter.to) {
+    let projArr = filteredProjects || projects;
+    filteredProjects = projArr.filter((project) => project.endDate <= filter.to);
+  }
+
+  if (!filteredProjects || !filter) return projects;
+
+  return filteredProjects;
+};
+
 export const projectService = {
   addProject,
   getProjects,
-  moveProject,
+  // moveProject,
   updateProject,
+  deleteProject,
   setFilter,
 };

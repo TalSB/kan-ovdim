@@ -12,7 +12,7 @@ export function ProjectProvider({ children }) {
 
   const queryProjects = async () => {
     const currProjects = await projectService.getProjects();
-    setProjects([...currProjects]);
+    if (currProjects) setProjects([...currProjects]);
   };
 
   const addProject = async (name) => {
@@ -25,12 +25,21 @@ export function ProjectProvider({ children }) {
     await queryProjects();
   };
 
+  const deleteProject = async (projectId) => {
+    await projectService.deleteProject(projectId);
+    await queryProjects();
+  };
+
   const setFilter = async (filterOptions) => {
     await projectService.setFilter(filterOptions);
     await queryProjects();
   };
 
-  return <ProjectContext.Provider value={{ addProject, queryProjects, updateProject, setFilter, projects }}>{children}</ProjectContext.Provider>;
+  return (
+    <ProjectContext.Provider value={{ addProject, queryProjects, updateProject, deleteProject, setFilter, projects }}>
+      {children}
+    </ProjectContext.Provider>
+  );
 }
 
 export default ProjectContext;

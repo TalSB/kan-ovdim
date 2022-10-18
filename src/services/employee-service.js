@@ -33,10 +33,13 @@ const gRoles = [
 
 const apiURL = "http://localhost:3005/employee";
 
+let filter;
+
 const getEmployees = async () => {
   try {
     const employees = await axios.get(apiURL);
-    return employees.data;
+    const filteredEmployees = _filterEmployees(employees.data);
+    return filteredEmployees;
   } catch (error) {
     console.log("ERROR:", error);
   }
@@ -53,7 +56,26 @@ const updateEmployee = async (updatedEmployee) => {
   }
 };
 
+const _filterEmployees = (employees) => {
+  let filteredEmployees;
+  if (filter?.from) {
+    filteredEmployees = employees.filter((employee) => employee.occupiedFrom >= filter.from);
+  }
+  if (filter?.to) {
+    let employeeArray = filteredEmployees || employees;
+    filteredEmployees = employeeArray.filter((employee) => employee.occupiedUntil <= filter.to);
+  }
+  if (!filteredEmployees || !filter) return employees;
+  return filteredEmployees;
+};
+
+const setFilter = (filterOptions) => {
+  filter = { ...filter, ...filterOptions };
+  return Promise.resolve();
+};
+
 export const employeeService = {
   getEmployees,
   updateEmployee,
+  setFilter,
 };

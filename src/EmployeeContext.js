@@ -20,10 +20,15 @@ export function EmployeeProvider({ children }) {
 
   const queryEmployees = async () => {
     const currEmployees = await employeeService.getEmployees();
-    setEmployees([...currEmployees]);
+    if (currEmployees) setEmployees([...currEmployees]);
   };
 
-  return <EmployeeContext.Provider value={{ employees, updateEmployee, queryEmployees }}>{children}</EmployeeContext.Provider>;
+  const setFilter = async (filterOptions) => {
+    await employeeService.setFilter(filterOptions);
+    await queryEmployees();
+  };
+
+  return <EmployeeContext.Provider value={{ employees, updateEmployee, queryEmployees, setFilter }}>{children}</EmployeeContext.Provider>;
 }
 
 export default EmployeeContext;
