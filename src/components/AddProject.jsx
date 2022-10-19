@@ -1,10 +1,9 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import ProjectContext from "../ProjectContext";
 import { DatePicker } from "./DatePicker";
 
-export function AddProject() {
-  const [isAddGroup, setIsAddGroup] = useState(false);
+export function AddProject({ setIsProject }) {
   const [projectName, setProjectName] = useState(null);
   const [dates, setDates] = useState(null);
 
@@ -19,35 +18,24 @@ export function AddProject() {
       endDate,
       employeeIds: [],
     };
-    console.log(newProject);
-    setIsAddGroup(false);
+    setIsProject(false);
     await addProject(newProject);
   };
 
   return (
     <div className="add-project-group">
-      {isAddGroup ? (
-        <div className="add-group-input-container">
-          <input
-            type="text"
-            className="add-group-input"
-            onChange={(event) => {
-              const text = event.target.value;
-              setProjectName(text);
-            }}
-          />
-          <DatePicker selected={dates} onSelect={setDates} buttonText={"Set Project Date"}></DatePicker>
-          <button onClick={onAddProject}>Add</button>
-        </div>
-      ) : (
-        <button
-          onClick={() => {
-            setIsAddGroup(true);
+      <div className="add-group-input-container">
+        <input
+          type="text"
+          className="add-group-input"
+          onChange={(event) => {
+            const text = event.target.value;
+            setProjectName(text);
           }}
-        >
-          Add Project
-        </button>
-      )}
+        />
+        <DatePicker selected={dates} onSelect={setDates} buttonText={"Set Project Date"}></DatePicker>
+        <button onClick={onAddProject}>Add</button>
+      </div>
     </div>
   );
 }

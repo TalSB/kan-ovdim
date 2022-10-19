@@ -23,12 +23,30 @@ export function EmployeeProvider({ children }) {
     if (currEmployees) setEmployees([...currEmployees]);
   };
 
+  const addEmployee = async (newEmplyoee) => {
+    try {
+      await employeeService.addEmployee(newEmplyoee);
+      await queryEmployees();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteEmployee = async (employeeId) => {
+    await employeeService.deleteEmployee(employeeId);
+    await queryEmployees();
+  };
+
   const setFilter = async (filterOptions) => {
     await employeeService.setFilter(filterOptions);
     await queryEmployees();
   };
 
-  return <EmployeeContext.Provider value={{ employees, updateEmployee, queryEmployees, setFilter }}>{children}</EmployeeContext.Provider>;
+  return (
+    <EmployeeContext.Provider value={{ employees, updateEmployee, queryEmployees, addEmployee, deleteEmployee, setFilter }}>
+      {children}
+    </EmployeeContext.Provider>
+  );
 }
 
 export default EmployeeContext;

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { areIntervalsOverlappingWithOptions } from "date-fns/fp";
 const gEmployees = [
   {
     id: 101,
@@ -56,6 +57,22 @@ const updateEmployee = async (updatedEmployee) => {
   }
 };
 
+const addEmployee = async (newEmployee) => {
+  try {
+    await axios.post(apiURL, { newEmployee });
+  } catch (error) {
+    throw error;
+  }
+};
+
+const deleteEmployee = async (employeeId) => {
+  try {
+    await axios.delete(apiURL + "/" + employeeId);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const _filterEmployees = (employees) => {
   let filteredEmployees;
   if (filter?.from) {
@@ -78,4 +95,6 @@ export const employeeService = {
   getEmployees,
   updateEmployee,
   setFilter,
+  addEmployee,
+  deleteEmployee,
 };
