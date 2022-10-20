@@ -9,10 +9,12 @@ import { AvailableEmployeesGroup } from "../components/AvailableEmployeesGroup";
 import { ProjectTimeFilter } from "../components/ProjectTimeFilter";
 import { AvailableEmployeeTimeFilter } from "../components/AvailableEmployeeTimeFilter";
 import { AddEntityModal } from "../components/AddEntityModal";
+import { FilterModal } from "../components/FilterModal";
 
 export function MainPage() {
   const [isAddingProject, setIsAddingProject] = useState(false);
   const [isAddingEmployee, setIsAddingEmployee] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
   // const onDragEnd = async (result) => {
   //   if (!result.destination) return;
   //   const toIdx = result.destination.index;
@@ -30,6 +32,8 @@ export function MainPage() {
   //     setProjects([...oldProjects]);
   //   }
   // };
+
+  console.log(isFilter);
 
   return (
     <section className="main-page">
@@ -50,16 +54,23 @@ export function MainPage() {
       <div className="available-employees-container">
         <AvailableEmployeesGroup></AvailableEmployeesGroup>
       </div>
-      <div className="filter-container">
-        <ProjectTimeFilter></ProjectTimeFilter>
-        <AvailableEmployeeTimeFilter></AvailableEmployeeTimeFilter>
-      </div>
+
+      <div className={`modal-background ${isAddingEmployee || isAddingProject || isFilter ? "open" : "closed"}`}></div>
       <AddEntityModal
         isEmployee={isAddingEmployee}
         setIsEmployee={setIsAddingEmployee}
         setIsProject={setIsAddingProject}
         isProject={isAddingProject}
       ></AddEntityModal>
+      <button
+        id="filter-button"
+        onClick={() => {
+          setIsFilter(true);
+        }}
+      >
+        Filter Dates
+      </button>
+      <FilterModal setIsFilter={setIsFilter} isFilter={isFilter}></FilterModal>
     </section>
   );
 }

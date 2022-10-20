@@ -22,6 +22,10 @@ export function AvailableEmployeeTimeFilter() {
   return (
     <section className="project-time-filter">
       <DatePicker selected={filterDates} onSelect={setFilterDates} buttonText="Show Available Employees from / to"></DatePicker>
+      <div className="date-preview">
+        {filterDates?.from && `from: ${filterDates.from.getDate()}/${filterDates.from.getMonth() + 1}/${filterDates.from.getFullYear()}`}
+        {filterDates?.to && `to: ${filterDates.to.getDate()}/${filterDates.to.getMonth() + 1}/${filterDates.to.getFullYear()}`}
+      </div>
     </section>
   );
 }
