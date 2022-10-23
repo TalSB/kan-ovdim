@@ -1,19 +1,21 @@
-import logo from './logo.svg'
-import './App.css'
-import { MainPage } from './views/MainPage'
-import { EmployeeProvider } from './EmployeeContext'
-import { ProjectProvider } from './ProjectContext'
-
+import logo from "./logo.svg";
+import "./App.css";
+import { MainPage } from "./views/MainPage";
+import { EmployeeProvider } from "./context/EmployeeContext";
+import { ProjectProvider } from "./context/ProjectContext";
+import { RoleProvider } from "./context/RoleContext";
 function App() {
   return (
     <div className="App">
       <ProjectProvider>
         <EmployeeProvider>
-          <MainPage></MainPage>
+          <RoleProvider>
+            <MainPage></MainPage>
+          </RoleProvider>
         </EmployeeProvider>
       </ProjectProvider>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

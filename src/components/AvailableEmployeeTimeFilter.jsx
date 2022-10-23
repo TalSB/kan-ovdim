@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import { useEffect } from "react";
 import { DatePicker } from "./DatePicker";
-import EmployeeContext from "../EmployeeContext";
+import EmployeeContext from "../context/EmployeeContext";
 
 export function AvailableEmployeeTimeFilter() {
   const [filterDates, setFilterDates] = useState(null);

@@ -2,8 +2,8 @@ import React, { useContext, useRef, useState } from "react";
 import { EmployeeGroup } from "./EmployeeGroup";
 import "react-day-picker/dist/style.css";
 import { useEffect } from "react";
-import ProjectContext from "../ProjectContext";
-import EmployeeContext from "../EmployeeContext";
+import ProjectContext from "../context/ProjectContext";
+import EmployeeContext from "../context/EmployeeContext";
 import { DatePicker } from "./DatePicker";
 
 export function ProjectGroup({ project }) {

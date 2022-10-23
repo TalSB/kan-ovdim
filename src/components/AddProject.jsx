@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useState } from "react";
-import ProjectContext from "../ProjectContext";
+import ProjectContext from "../context/ProjectContext";
 import { DatePicker } from "./DatePicker";
 
 export function AddProject({ setIsProject }) {

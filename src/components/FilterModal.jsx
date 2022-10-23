@@ -9,7 +9,6 @@ export function FilterModal({ setIsFilter, isFilter }) {
     setIsFilter(false);
   });
 
-  console.log(isFilter);
   return (
     <div ref={modalRef} className={`filter-modal ${isFilter ? "open" : ""}`}>
       <div className="filter-container">

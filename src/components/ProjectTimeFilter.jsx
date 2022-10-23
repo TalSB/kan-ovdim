@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { DatePicker } from "./DatePicker";
-import ProjectContext from "../ProjectContext";
+import ProjectContext from "../context/ProjectContext";
 
 export function ProjectTimeFilter() {
   const [filterDates, setFilterDates] = useState(null);

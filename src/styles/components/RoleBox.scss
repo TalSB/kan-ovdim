@@ -1,0 +1,11 @@
+.employee-roles-container {
+    ul.roles {
+        list-style: none;
+        li.role-box {
+            width: 20px;
+            height: 12px;
+            border-radius: 20%;
+            transform: translateY(25%);
+        }
+    }
+}

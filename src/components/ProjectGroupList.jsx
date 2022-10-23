@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { ProjectGroup } from "./ProjectGroup";
 // import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import ProjectContext from "../ProjectContext";
+import ProjectContext from "../context/ProjectContext";
 
 export function ProjectGroupList() {
   const { projects } = useContext(ProjectContext);

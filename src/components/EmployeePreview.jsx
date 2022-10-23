@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import EmployeeContext from "../EmployeeContext";
-import ProjectContext from "../ProjectContext";
+import EmployeeContext from "../context/EmployeeContext";
+import ProjectContext from "../context/ProjectContext";
 
 export function EmployeePreview({ employee, projectId, setIsAddingEmployee }) {
   const { updateEmployee } = useContext(EmployeeContext);

@@ -1,5 +1,5 @@
 import { useState, createContext, useEffect } from "react";
-import { projectService } from "./services/project-service";
+import { projectService } from "../services/project-service";
 
 const ProjectContext = createContext();
 

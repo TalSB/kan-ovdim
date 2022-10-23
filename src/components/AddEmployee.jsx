@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useContext } from "react";
-import EmployeeContext from "../EmployeeContext";
+import EmployeeContext from "../context/EmployeeContext";
 
 export function AddEmployee({ setIsEmployee }) {
   const [employeeName, setEmployeeName] = useState(null);

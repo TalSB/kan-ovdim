@@ -33,8 +33,6 @@ export function MainPage() {
   //   }
   // };
 
-  console.log(isFilter);
-
   return (
     <section className="main-page">
       <div id="add-entity-btns">

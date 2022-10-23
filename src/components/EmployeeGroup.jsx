@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import { EmployeePreview } from "./EmployeePreview";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import { employeeService } from "../services/employee-service";
-import EmployeeContext from "../EmployeeContext";
+import EmployeeContext from "../context/EmployeeContext";
 import { useClickOutside } from "../hooks/useClickOutside";
 
 export function EmployeeGroup({ projectId, setIsAddingEmployee }) {
