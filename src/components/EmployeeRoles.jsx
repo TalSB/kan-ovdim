@@ -12,7 +12,6 @@ export function RoleBox({ roleIds }) {
     const relevantRoles = roleIds?.map((roleId) => {
       return roles.find((role) => roleId === role._id);
     });
-    console.log(relevantRoles);
     setEmployeeRoles(relevantRoles);
   }, [roles]);
 
@@ -20,7 +19,9 @@ export function RoleBox({ roleIds }) {
     <section className="employee-roles-container">
       <ul className="roles">
         {employeeRoles?.map((role) => (
-          <li key={role?._id} className="role-box" style={{ background: role?.color }}></li>
+          <li key={role?._id} className="role-box" style={{ background: role?.color }}>
+            <div className="role-name">{role?.name}</div>
+          </li>
         ))}
       </ul>
     </section>
