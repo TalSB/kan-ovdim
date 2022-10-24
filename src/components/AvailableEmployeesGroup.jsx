@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import EmployeeContext from "../context/EmployeeContext";
-import { RoleBox } from "./EmployeeRoles";
+import { EmployeeRoles } from "./EmployeeRoles";
 
 export function AvailableEmployeesGroup() {
   const [availableEmployees, setAvailableEmployees] = useState(null);
@@ -18,7 +18,7 @@ export function AvailableEmployeesGroup() {
           return (
             <div key={employee._id} className="employee-preview">
               <li>{employee.name}</li>
-              <RoleBox roleIds={employee.roleIds}></RoleBox>
+              <EmployeeRoles roleIds={employee.roleIds} />
               <button
                 onClick={() => {
                   onDeleteEmployee(employee._id);

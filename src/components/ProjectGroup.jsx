@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import ProjectContext from "../context/ProjectContext";
 import EmployeeContext from "../context/EmployeeContext";
 import { DatePicker } from "./DatePicker";
+import { EmployeeRoles } from "./EmployeeRoles";
 
 export function ProjectGroup({ project }) {
   const [dates, setDates] = useState(null);
@@ -77,6 +78,20 @@ export function ProjectGroup({ project }) {
     await deleteProject(project._id);
   };
 
+  const removeEmployeeFromProject = async (employeeId) => {
+    const updatedProject = JSON.parse(JSON.stringify(project));
+    const idx = updatedProject.employeeIds.findIndex((empId) => empId === employeeId);
+    updatedProject.employeeIds.splice(idx, 1);
+    await updateProject(updatedProject);
+
+    let removedEmployee = employees.find((employee) => employee._id === employeeId);
+    if (!removedEmployee || removedEmployee?.isOccupiedChanged) return;
+    removedEmployee = JSON.parse(JSON.stringify(removedEmployee));
+    removedEmployee.occupiedFrom = null;
+    removedEmployee.occupiedUntil = null;
+    await updateEmployee(removedEmployee);
+  };
+
   return (
     <section className="project-group">
       <button onClick={onDeleteProject}>X</button>
@@ -90,6 +105,7 @@ export function ProjectGroup({ project }) {
             return (
               <div key={employee._id} className="project-employee-preview">
                 <li>{employee.name}</li>
+                <EmployeeRoles roleIds={employee?.roleIds} />
                 <DatePicker
                   selected={selectedEmployeeDates}
                   onSelect={(selectedDates) => {
@@ -99,6 +115,13 @@ export function ProjectGroup({ project }) {
                     setCustomEmployeeDates(employee._id);
                   }}
                 ></DatePicker>
+                <button
+                  onClick={() => {
+                    removeEmployeeFromProject(employee._id);
+                  }}
+                >
+                  Remove
+                </button>
               </div>
             );
           }

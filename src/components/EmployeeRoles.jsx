@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import RoleContext from "../context/RoleContext";
 
-export function RoleBox({ roleIds }) {
+export function EmployeeRoles({ roleIds }) {
   const { roles } = useContext(RoleContext);
   const [employeeRoles, setEmployeeRoles] = useState(null);
 

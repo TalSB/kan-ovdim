@@ -6,7 +6,6 @@ import { DatePicker } from "./DatePicker";
 export function AddProject({ setIsProject }) {
   const [projectName, setProjectName] = useState(null);
   const [dates, setDates] = useState(null);
-
   const { addProject } = useContext(ProjectContext);
 
   const onAddProject = async () => {

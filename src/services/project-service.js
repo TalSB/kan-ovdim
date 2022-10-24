@@ -60,13 +60,9 @@ const setFilter = async (filterOptions) => {
 const _filterProjects = (projects) => {
   let filteredProjects;
   if (filter.from) {
-    filteredProjects = projects.filter((project) => project.startDate >= filter.from);
+    if (!filter.to) filter.to = filter.from;
+    filteredProjects = projects.filter((project) => filter.from <= project.endDate && filter.to >= project.startDate);
   }
-  if (filter.to) {
-    let projArr = filteredProjects || projects;
-    filteredProjects = projArr.filter((project) => project.endDate <= filter.to);
-  }
-
   if (!filteredProjects || !filter) return projects;
 
   return filteredProjects;

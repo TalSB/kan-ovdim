@@ -1,36 +1,4 @@
 import axios from "axios";
-import { areIntervalsOverlappingWithOptions } from "date-fns/fp";
-const gEmployees = [
-  {
-    id: 101,
-    name: "Tal",
-    roleId: 101,
-    occupiedFrom: null,
-    occupiedUntil: null,
-    isOccupiedChanged: false,
-  },
-  {
-    id: 102,
-    name: "NivOPS",
-    roleId: 102,
-    occupiedFrom: null,
-    occupiedUntil: null,
-    isOccupiedChanged: false,
-  },
-  {
-    id: 103,
-    name: "Alon",
-    roleId: 101,
-    occupiedFrom: null,
-    occupiedUntil: null,
-    isOccupiedChanged: false,
-  },
-];
-
-const gRoles = [
-  { name: "developer", id: 101 },
-  { name: "devops", id: 102 },
-];
 
 const apiURL = "http://localhost:3005/employee";
 
@@ -76,12 +44,11 @@ const deleteEmployee = async (employeeId) => {
 const _filterEmployees = (employees) => {
   let filteredEmployees;
   if (filter?.from) {
-    filteredEmployees = employees.filter((employee) => employee.occupiedFrom >= filter.from);
+    if (!filter.to) filter.to = filter.from;
+    filteredEmployees = employees.filter((employee) => !(filter.from <= employee.occupiedUntil && filter.to >= employee.occupiedFrom));
   }
-  if (filter?.to) {
-    let employeeArray = filteredEmployees || employees;
-    filteredEmployees = employeeArray.filter((employee) => employee.occupiedUntil <= filter.to);
-  }
+
+  console.log("FILTER", filter);
   if (!filteredEmployees || !filter) return employees;
   return filteredEmployees;
 };
