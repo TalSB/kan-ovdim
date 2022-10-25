@@ -6,6 +6,7 @@ const EmployeeContext = createContext();
 
 export function EmployeeProvider({ children }) {
   const [employees, setEmployees] = useState(null);
+  const [filter, setFilter] = useState(null);
   const { queryProjects } = useContext(ProjectContext);
 
   useEffect(() => {
@@ -37,13 +38,12 @@ export function EmployeeProvider({ children }) {
     await queryEmployees();
   };
 
-  const setFilter = async (filterOptions) => {
-    await employeeService.setFilter(filterOptions);
-    await queryEmployees();
+  const onSetFilter = async (filterOptions) => {
+    setFilter({ ...filter, ...filterOptions });
   };
 
   return (
-    <EmployeeContext.Provider value={{ employees, updateEmployee, queryEmployees, addEmployee, deleteEmployee, setFilter }}>
+    <EmployeeContext.Provider value={{ employees, filter, updateEmployee, queryEmployees, addEmployee, deleteEmployee, onSetFilter }}>
       {children}
     </EmployeeContext.Provider>
   );

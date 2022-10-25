@@ -20,7 +20,7 @@ export function AvailableEmployeeTimeFilter() {
     setFilter(dates);
   }, [filterDates]);
   return (
-    <section className="project-time-filter">
+    <section className="employee-time-filter">
       <DatePicker selected={filterDates} onSelect={setFilterDates} buttonText="Show Available Employees from / to"></DatePicker>
       <div className="date-preview">
         {filterDates?.from && `from: ${filterDates.from.getDate()}/${filterDates.from.getMonth() + 1}/${filterDates.from.getFullYear()}`}

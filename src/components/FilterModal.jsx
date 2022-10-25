@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useClickOutside } from "../hooks/useClickOutside";
 import { ProjectTimeFilter } from "./ProjectTimeFilter";
-import { AvailableEmployeeTimeFilter } from "./AvailableEmployeeTimeFilter";
+// import { AvailableEmployeeTimeFilter } from "./AvailableEmployeeTimeFilter";
 
 export function FilterModal({ setIsFilter, isFilter }) {
   const modalRef = useRef();
@@ -13,7 +13,7 @@ export function FilterModal({ setIsFilter, isFilter }) {
     <div ref={modalRef} className={`filter-modal ${isFilter ? "open" : ""}`}>
       <div className="filter-container">
         <ProjectTimeFilter></ProjectTimeFilter>
-        <AvailableEmployeeTimeFilter></AvailableEmployeeTimeFilter>
+        {/* <AvailableEmployeeTimeFilter></AvailableEmployeeTimeFilter> */}
       </div>
     </div>
   );

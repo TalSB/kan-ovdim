@@ -7,16 +7,14 @@ let filter;
 const getEmployees = async () => {
   try {
     const employees = await axios.get(apiURL);
-    const filteredEmployees = _filterEmployees(employees.data);
-    return filteredEmployees;
+    // const filteredEmployees = _filterEmployees(employees.data);
+    return employees.data;
   } catch (error) {
     console.log("ERROR:", error);
   }
 };
 
 const updateEmployee = async (updatedEmployee) => {
-  // const employeeIdx = gEmployees.findIndex((employee) => employee.id === updatedEmployee.id);
-  // gEmployees.splice(employeeIdx, 1, updatedEmployee);
   try {
     const employee = await axios.put(apiURL, { updatedEmployee });
     return employee.data;
@@ -43,13 +41,13 @@ const deleteEmployee = async (employeeId) => {
 
 const _filterEmployees = (employees) => {
   let filteredEmployees;
+
   if (filter?.from) {
     if (!filter.to) filter.to = filter.from;
     filteredEmployees = employees.filter((employee) => !(filter.from <= employee.occupiedUntil && filter.to >= employee.occupiedFrom));
   }
 
-  console.log("FILTER", filter);
-  if (!filteredEmployees || !filter) return employees;
+  if (!filteredEmployees) return employees;
   return filteredEmployees;
 };
 

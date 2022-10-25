@@ -16,5 +16,16 @@
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+
+        .filter-dates-preview {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .employee-time-filter {
+            .date-picker {
+                transform: translateY(-120%);
+            }
+        }
     }
 }
